@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SearchApplication</string>
+    <string name="type_to_search">Type to search...</string>
+    <string name="search_for_a_user">Search for a user...</string>
+</resources>

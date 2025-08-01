@@ -1,0 +1,62 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+
+# Built application files
+*.apk
+*.aab
+*.aar
+*.ap_
+*.dex
+*.hprof
+*.class
+*.so
+
+# Files for the ART
+# *.oat
+
+# Files for the Gradle build system
+.gradle/
+build/
+app/build/
+.idea/
+local.properties
+.DS_Store
+*.iml
+
+# External libraries and dependencies
+lint-results.xml
+jacoco.xml
+coverage.xml
+
+# User-specific files
+/captures/
+/data/
+/log/
+
+# Keystore files
+*.jks
+*.keystore
+release.keystore
+
+# Android Studio-specific files
+.idea/
+.idea/libraries
+.idea/workspace.xml
+.idea/gradle.xml
+.idea/runConfigurations
+.idea/vcs.xml
+.idea/inspectionProfiles
