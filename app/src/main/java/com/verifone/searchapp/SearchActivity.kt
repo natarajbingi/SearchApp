@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.verifone.searchapp.databinding.ActivitySearchBinding
 import com.verifone.searchapp.presentation.SearchState
 import com.verifone.searchapp.presentation.SearchViewModel
+import com.verifone.searchapp.presentation.adapter.ProdAdapter
 import com.verifone.searchapp.presentation.adapter.UserAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var binding: ActivitySearchBinding
-    private val searchAdapter = UserAdapter()
+    private val searchAdapter = ProdAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
         })
 
         lifecycleScope.launch {
-            viewModel.searchState.collect { state ->
+            viewModel.searchProdState.collect { state ->
                 when (state) {
                     is SearchState.Idle -> {
                         // Handle initial state
@@ -63,15 +64,21 @@ class SearchActivity : AppCompatActivity() {
                     is SearchState.Loading -> {
                         // Handle loading state
                         binding.progressBar.visibility = View.VISIBLE
-                        binding.statusTextView.visibility = View.VISIBLE
+                        binding.statusTextView.visibility = View.GONE
                     }
 
-                    is SearchState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.statusTextView.visibility =
-                            if (state.users.isEmpty()) View.VISIBLE else View.GONE
+                    is SearchState.SuccessUser -> {
+                        /*binding.progressBar.visibility = View.GONE
+                        binding.statusTextView.visibility =if (state.users.isEmpty()) View.VISIBLE else View.GONE
                         binding.statusTextView.text = "No users found"
-                        searchAdapter.submitList(state.users)
+                       searchAdapter.submitList(state.users)*/
+                    }
+
+                    is SearchState.SuccessProd -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.statusTextView.visibility = if (state.prods.isEmpty()) View.VISIBLE else View.GONE
+                        binding.statusTextView.text = "No product found"
+                        searchAdapter.submitList(state.prods)
                     }
 
                     is SearchState.Error -> {

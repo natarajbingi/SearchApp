@@ -1,7 +1,7 @@
 package com.verifone.searchapp.data.di
 
-import com.verifone.searchapp.data.UserRepositoryImpl
-import com.verifone.searchapp.domain.UserRepository
+import com.verifone.searchapp.data.DataRepositoryImpl
+import com.verifone.searchapp.domain.DataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+    abstract fun bindDataRepository(dataRepositoryImpl: DataRepositoryImpl): DataRepository
 }
