@@ -15,4 +15,8 @@ data class Product(
     val dateAdded: String,
     val regularPrice: String,
     val imageUrl: String?
-)
+){
+    override fun toString(): String {
+        return "Product(id='$id', name='$name', description=$description, dateAdded='$dateAdded', regularPrice='$regularPrice', imageUrl=$imageUrl)"
+    }
+}

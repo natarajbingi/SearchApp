@@ -6,12 +6,13 @@ import com.verifone.searchapp.data.api.UserResponse
 import com.verifone.searchapp.domain.Product
 import com.verifone.searchapp.domain.User
 import com.verifone.searchapp.domain.DataRepository
+import com.verifone.searchapp.utils.Logs
 import javax.inject.Inject
 
 class DataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : DataRepository {
-    val TAG = "DataRepositoryImpl ->"
+    val TAG = "DataRepositoryImpl"
     override suspend fun searchUsers(username: String): Result<List<User>> {
         return try {
             val response = apiService.searchUsers(username)
@@ -32,9 +33,11 @@ class DataRepositoryImpl @Inject constructor(
         return try {
             val response = apiService.searchProducts(query)
             if (response.isSuccessful) {
+                Logs.d(TAG, "searchProducts:onSuccess response.code:${response}")
                 val domainProducts = response.body()?.psdata?.products?.map { it.toDomainProduct() } ?: emptyList()
                 Result.success(domainProducts)
             } else {
+                Logs.d(TAG, "searchProducts:onFailure response.code:${response.code()}")
                 Result.failure(Exception("API call failed with code: ${response.code()}"))
             }
         } catch (e: Exception) {

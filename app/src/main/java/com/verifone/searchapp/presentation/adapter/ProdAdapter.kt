@@ -8,10 +8,11 @@ import com.bumptech.glide.Glide
 import com.verifone.searchapp.R
 import com.verifone.searchapp.databinding.ItemProductBinding
 import com.verifone.searchapp.domain.Product
+import com.verifone.searchapp.utils.Logs
 
 
+val TAG = "ProdAdapter"
 class ProdAdapter : ListAdapter<Product, ProdAdapter.ProdViewHolder>(ProdDiffCallback()) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProdViewHolder {
         // Inflate the item layout using its binding class
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,6 +26,7 @@ class ProdAdapter : ListAdapter<Product, ProdAdapter.ProdViewHolder>(ProdDiffCal
     class ProdViewHolder(val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root){
         // The bind function now uses the binding object to set data
         fun bind(product: Product) {
+            Logs.d(TAG, "bind: $product")
             binding.productNameTextView.text = product.name
             binding.productDescriptionTextView.text = product.description ?: "No description available"
             binding.productPriceTextView.text = "Price: ${product.regularPrice}"

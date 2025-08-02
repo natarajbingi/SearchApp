@@ -15,19 +15,20 @@ import com.verifone.searchapp.presentation.SearchState
 import com.verifone.searchapp.presentation.SearchViewModel
 import com.verifone.searchapp.presentation.adapter.ProdAdapter
 import com.verifone.searchapp.presentation.adapter.UserAdapter
+import com.verifone.searchapp.utils.Logs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
-
+    val TAG = "SearchActivity"
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var binding: ActivitySearchBinding
     private val searchAdapter = ProdAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+        Logs.d(TAG, "onCreate")
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.searchProdState.collect { state ->
+                Logs.d(TAG, "state: $state")
                 when (state) {
                     is SearchState.Idle -> {
                         // Handle initial state

@@ -1,5 +1,6 @@
 package com.verifone.searchapp.data.api
 
+// user results
 data class UserResponse(
     val id: Int,
     val name: String,
@@ -7,7 +8,7 @@ data class UserResponse(
     val email: String
 )
 
-
+// search results
 data class ProductSearchResponse(
     val code: Int,
     val success: Boolean,

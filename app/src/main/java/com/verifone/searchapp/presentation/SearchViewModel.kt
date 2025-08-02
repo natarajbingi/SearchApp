@@ -7,6 +7,7 @@ import com.verifone.searchapp.domain.SearchProductsUseCase
 import com.verifone.searchapp.domain.SearchUsersUseCase
 import com.verifone.searchapp.domain.User
 import com.verifone.searchapp.presentation.SearchState
+import com.verifone.searchapp.utils.Logs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ class SearchViewModel @Inject constructor(
     private val searchUserUseCase: SearchUsersUseCase,
     private val searchProdUseCase: SearchProductsUseCase
 ) : ViewModel() {
-    val TAG = "SearchViewModel ->"
+    val TAG = "SearchViewModel"
 
     private val _searchUserState = MutableStateFlow<SearchState>(SearchState.Idle)
     val searchUserState: StateFlow<SearchState> = _searchUserState.asStateFlow()
@@ -32,8 +33,10 @@ class SearchViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     fun performSearch(query: String) {
+        Logs.d(TAG, "performSearch() called with: query = $query")
         if (query.isBlank() || query.length < 2) {
             _searchProdState.value = SearchState.Idle
+            Logs.d(TAG, "performSearch() returning with empty query:$query")
             return
         }
         searchJob?.cancel()
@@ -43,12 +46,12 @@ class SearchViewModel @Inject constructor(
 
             val result = searchProdUseCase(query)
             _searchProdState.value = if (result.isSuccess) {
-                val users = result.getOrNull() ?: emptyList()
-                Log.d(TAG, "Search successful, query is $query and  found ${users.size} users.")
-                SearchState.SuccessProd(users)
+                val prods = result.getOrNull() ?: emptyList()
+                Logs.d(TAG, "Search successful, query is $query and  found ${prods.size} users.")
+                SearchState.SuccessProd(prods)
             } else {
                 val errorMessage = result.exceptionOrNull()?.message ?: "An unknown error occurred"
-                Log.e(TAG, "Search failed: $errorMessage")
+                Logs.e(TAG, "Search failed: $errorMessage")
                 SearchState.Error(errorMessage)
             }
         }
